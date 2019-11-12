@@ -22,8 +22,7 @@ public class Song {
     private Short discNumber;
     private Short discTotal;
     private String artistName;
-    private String albumArtistName;
-    private String albumName;
+    private Album album;
     private String releaseDate;
     private String originalReleaseDate; // Could be the same as releaseDate.
     private int releaseYear;
@@ -79,20 +78,12 @@ public class Song {
         this.artistName = artistName;
     }
 
-    public String getAlbumArtistName() {
-        return albumArtistName;
+    public Album getAlbum() {
+        return album;
     }
 
-    public void setAlbumArtistName(String albumArtistName) {
-        this.albumArtistName = albumArtistName;
-    }
-
-    public String getAlbumName() {
-        return albumName;
-    }
-
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 
     public String getReleaseDate() {
@@ -223,18 +214,23 @@ public class Song {
         Objects.requireNonNull(audioFile);
         final Tag tag = audioFile.getTag();
         title = tag.getFirst(FieldKey.TITLE);
-        trackNumber = Short.parseShort(tag.getFirst(FieldKey.TRACK));
-        if (!"".equals(tag.getFirst(FieldKey.DISC_NO))) {
+        if (tag.hasField(FieldKey.TRACK)) {
+            trackNumber = Short.parseShort(tag.getFirst(FieldKey.TRACK));
+        }
+        if (tag.hasField(FieldKey.DISC_NO)) {
             discNumber = Short.parseShort(tag.getFirst(FieldKey.DISC_NO));
         }
-        if (!"".equals(tag.getFirst(FieldKey.DISC_TOTAL))) {
+        if (tag.hasField(FieldKey.DISC_TOTAL)) {
             discTotal = Short.parseShort(tag.getFirst(FieldKey.DISC_TOTAL));
         }
         artistName = tag.getFirst(FieldKey.ARTIST);
-        albumArtistName = tag.getFirst(FieldKey.ALBUM_ARTIST);
-        albumName = tag.getFirst(FieldKey.ALBUM);
-        releaseDate = tag.getFirst(FieldKey.YEAR); // Appears to be a UTC formatted date string
-        originalReleaseDate = tag.getFirst(FieldKey.ORIGINAL_YEAR);
+        final String albumArtistName = tag.getFirst(FieldKey.ALBUM_ARTIST);
+        final String albumName = tag.getFirst(FieldKey.ALBUM);
+        album = new Album(albumName, albumArtistName);
+        releaseDate = tag.getFirst(FieldKey.YEAR); // Appears to be a UTC formatted date string - but not always!
+        if (tag.hasField(FieldKey.ORIGINAL_YEAR)) {
+            originalReleaseDate = tag.getFirst(FieldKey.ORIGINAL_YEAR);
+        }
         genre = String.join(",", tag.getAll(FieldKey.GENRE));
         musicBrainzTrackId = tag.getFirst(FieldKey.MUSICBRAINZ_TRACK_ID);
 
