@@ -1,8 +1,6 @@
-package com.joelforjava.music.model;
+package com.joelforjava.music.model
 
-import java.util.List;
-
-public class Album {
+class Album {
     String title;
     List<Song> tracks;
     int numPieces; // Number of discs, LPs, etc.
@@ -19,13 +17,13 @@ public class Album {
     String musicBrainzReleaseId;
 
     // TODO - determine constructors
-    public Album(String title, String albumArtist) {
+    Album(String title, String albumArtist) {
         this.title = title;
         this.albumArtist = albumArtist;
     }
 
     @Override
-    public String toString() {
+    String toString() {
         return title + " by " + albumArtist;
     }
     // TODO - equals and hashCode
