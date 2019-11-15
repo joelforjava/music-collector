@@ -62,11 +62,7 @@ class Song {
         }
         // TODO - move artist-specific initialization to Artist
         artist = new Artist(name: tag.getFirst(FieldKey.ARTIST))
-        final String albumArtistName = tag.hasField(FieldKey.ALBUM_ARTIST) ? tag.getFirst(FieldKey.ALBUM_ARTIST) : artist.name
-        Artist albumArtist = new Artist(name: albumArtistName)
-        final String albumName = tag.getFirst(FieldKey.ALBUM)
-        // TODO - move album-specific initialization to Album
-        album = new Album(albumName, albumArtist)
+        album = new Album(tag)
 
         releaseDate = tag.getFirst(FieldKey.YEAR) // Appears to be a UTC formatted date string - but not always!
         if (tag.hasField(FieldKey.ORIGINAL_YEAR)) {
@@ -84,13 +80,18 @@ class Song {
         variableBitRate = audioHeader.variableBitRate
 
         try {
-            // TODO - figure this part out. Is it possible to get Windows URI while running in *nix?
-            //      - even if it's just an approximation?
-            // What do we do in the case that we're running this in both Windows and *nix?
+            // What do we do in the case that we're running this in both Windows and *nix at different times?
+            // It will be an issue if we ever want to save data back to the files
+            // or if we want to do something like copy a file
             File fileRef = audioFile.getFile()
-            windowsFileUrl = fileRef.getCanonicalPath()
-            posixFileUrl = fileRef.getCanonicalPath()
+            String os = System.getProperty('os.name')
+            if (os.indexOf('win') > 0) {
+                windowsFileUrl = fileRef.getCanonicalPath()
+            } else {
+                posixFileUrl = fileRef.getCanonicalPath()
+            }
         } catch (IOException e) {
+            println("Could not get file path details from $audioFile") // TODO - change to log
             e.printStackTrace()
         }
     }
