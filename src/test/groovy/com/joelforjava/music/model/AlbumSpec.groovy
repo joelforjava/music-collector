@@ -10,7 +10,7 @@ class AlbumSpec extends Specification {
         String artist = 'Tragically Hip'
 
         when: 'We create an object using these values'
-        Album album = new Album(albumName, artist)
+        Album album = new Album(albumName, new Artist(name: artist))
 
         then: 'It is created as expected'
         album

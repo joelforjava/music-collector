@@ -7,7 +7,7 @@ class Album {
     String title
     List<Song> tracks
     int numPieces // Number of discs, LPs, etc.
-    String albumArtist
+    Artist albumArtist
     String recordLabel // TODO - make a list?
     String barcode
     String catalogNumber
@@ -20,7 +20,7 @@ class Album {
     String musicBrainzReleaseId
 
     // TODO - determine constructors
-    Album(String title, String albumArtist) {
+    Album(String title, Artist albumArtist) {
         this.title = title
         this.albumArtist = albumArtist
     }

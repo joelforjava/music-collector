@@ -60,10 +60,14 @@ class Song {
         if (tag.hasField(FieldKey.DISC_TOTAL)) {
             discTotal = Short.parseShort(tag.getFirst(FieldKey.DISC_TOTAL))
         }
+        // TODO - move artist-specific initialization to Artist
         artist = new Artist(name: tag.getFirst(FieldKey.ARTIST))
-        final String albumArtistName = tag.getFirst(FieldKey.ALBUM_ARTIST)
+        final String albumArtistName = tag.hasField(FieldKey.ALBUM_ARTIST) ? tag.getFirst(FieldKey.ALBUM_ARTIST) : artist.name
+        Artist albumArtist = new Artist(name: albumArtistName)
         final String albumName = tag.getFirst(FieldKey.ALBUM)
-        album = new Album(albumName, albumArtistName)
+        // TODO - move album-specific initialization to Album
+        album = new Album(albumName, albumArtist)
+
         releaseDate = tag.getFirst(FieldKey.YEAR) // Appears to be a UTC formatted date string - but not always!
         if (tag.hasField(FieldKey.ORIGINAL_YEAR)) {
             originalReleaseDate = tag.getFirst(FieldKey.ORIGINAL_YEAR)
@@ -71,13 +75,13 @@ class Song {
         genre = String.join(",", tag.getAll(FieldKey.GENRE))
         musicBrainzTrackId = tag.getFirst(FieldKey.MUSICBRAINZ_TRACK_ID)
 
-        AudioHeader audioHeader = audioFile.getAudioHeader()
-        length = audioHeader.getTrackLength()
-        encodingType = audioHeader.getEncodingType()
-        format = audioHeader.getFormat()
-        bitRate = audioHeader.getBitRate()
-        lossless = audioHeader.isLossless()
-        variableBitRate = audioHeader.isVariableBitRate()
+        AudioHeader audioHeader = audioFile.audioHeader
+        length = audioHeader.trackLength
+        encodingType = audioHeader.encodingType
+        format = audioHeader.format
+        bitRate = audioHeader.bitRate
+        lossless = audioHeader.lossless
+        variableBitRate = audioHeader.variableBitRate
 
         try {
             // TODO - figure this part out. Is it possible to get Windows URI while running in *nix?
