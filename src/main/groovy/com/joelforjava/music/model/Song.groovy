@@ -18,7 +18,7 @@ class Song {
     Short trackNumber
     Short discNumber
     Short discTotal
-    String artistName
+    Artist artist
     Album album
     String releaseDate
     String originalReleaseDate // Could be the same as releaseDate.
@@ -60,7 +60,7 @@ class Song {
         if (tag.hasField(FieldKey.DISC_TOTAL)) {
             discTotal = Short.parseShort(tag.getFirst(FieldKey.DISC_TOTAL))
         }
-        artistName = tag.getFirst(FieldKey.ARTIST)
+        artist = new Artist(name: tag.getFirst(FieldKey.ARTIST))
         final String albumArtistName = tag.getFirst(FieldKey.ALBUM_ARTIST)
         final String albumName = tag.getFirst(FieldKey.ALBUM)
         album = new Album(albumName, albumArtistName)
@@ -93,6 +93,6 @@ class Song {
 
     @Override
     String toString() {
-        "$title by $artistName"
+        "$title by $artist"
     }
 }
