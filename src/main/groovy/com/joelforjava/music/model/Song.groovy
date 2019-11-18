@@ -100,4 +100,8 @@ class Song {
     String toString() {
         "$title by $artist"
     }
+
+    enum EncodingType {
+        ALAC, FLAC, WAV, MP3, AAC, OGG, WMA
+    }
 }
