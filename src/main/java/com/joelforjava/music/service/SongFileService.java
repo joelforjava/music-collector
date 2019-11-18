@@ -11,25 +11,19 @@ import java.util.List;
 public interface SongFileService {
 
     /**
-     * Load the song data for a given song that exists at the given file path.
+     * Read the song data for a given song that exists at the given file path.
      *
      * @param filePath - a valid file path that points to a specific music file
      * @return the song data for the requested file.
      */
-    Song load(String filePath);
+    Song readFile(String filePath);
 
     /**
-     * Load the song data for all songs that exist in the given directory path.
+     * Read the song data for all songs that exist in the given directory path.
      *
      * @param directoryPath - a valid file path that points to a directory of music files
      * @return the song data for all files within the provided directory path.
      */
-    List<Song> loadAll(String directoryPath);
+    List<Song> readDirectory(String directoryPath);
 
-    /**
-     * Update the tag data for a given song in the file system.
-     *
-     * @param song - a valid Song object that we wish to use to update a file.
-     */
-    void update(Song song);
 }
