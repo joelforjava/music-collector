@@ -1,5 +1,6 @@
 package com.joelforjava.music.model
 
+import groovy.transform.CompileStatic
 import org.jaudiotagger.audio.AudioFile
 import org.jaudiotagger.audio.AudioFileIO
 import org.jaudiotagger.audio.AudioHeader
@@ -13,6 +14,7 @@ import org.jaudiotagger.tag.TagException
 import java.nio.file.Path
 import java.nio.file.Paths
 
+@CompileStatic
 class Song {
     String title
     Short trackNumber
@@ -22,8 +24,8 @@ class Song {
     Album album
     String releaseDate
     String originalReleaseDate // Could be the same as releaseDate.
-    int releaseYear
-    int originalReleaseYear
+    int releaseYear  // TODO - should this just be calculated instead?
+    int originalReleaseYear  // TODO - should this just be calculated instead?
     int length
     String genre
     String musicBrainzTrackId
@@ -103,5 +105,9 @@ class Song {
 
     enum EncodingType {
         ALAC, FLAC, WAV, MP3, AAC, OGG, WMA
+    }
+
+    enum MediaOrigin {
+        CD, LP, CASSETTE, DIGITAL
     }
 }

@@ -1,10 +1,12 @@
 package com.joelforjava.music.model
 
+import groovy.transform.CompileStatic
 import groovy.transform.EqualsAndHashCode
 import org.jaudiotagger.audio.AudioFile
 import org.jaudiotagger.tag.FieldKey
 import org.jaudiotagger.tag.Tag
 
+@CompileStatic
 @EqualsAndHashCode
 class Album {
     String title

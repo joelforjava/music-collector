@@ -14,6 +14,9 @@ plugins {
     id 'groovy'
 }
 
+group = 'org.joelforjava.musicdb'
+version = '0.1-SNAPSHOT'
+
 repositories {
     maven {
         url 'https://dl.bintray.com/ijabz/maven'
