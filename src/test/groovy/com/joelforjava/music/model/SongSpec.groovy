@@ -31,6 +31,17 @@ class SongSpec extends Specification {
 
     }
 
+    void 'Attempting to create a song from a non-existent file results in an exception'() {
+        given: 'We have an invalid file uri'
+        String invalidFileURI = 'temp/INVALID_FILE.m4a'
+
+        when: 'We try to create a song using this uri'
+        Song song = new Song(invalidFileURI)
+
+        then: 'An exception is thrown'
+        thrown(FileNotFoundException)
+    }
+
     @Unroll("File #fileName has an encoding type of #expectedEncodingType")
     void 'Differently encoded files will identify as expected'() {
         given: 'We have a file reference'
